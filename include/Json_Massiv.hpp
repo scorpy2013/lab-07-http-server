@@ -9,7 +9,7 @@ using json = nlohmann::json;
 
 class Json_Massiv {
  public:
-  Json_Massiv(const std::string& name_);
+  explicit Json_Massiv(const std::string& name_);
   json get_memory() const;
   void read_json();
 
@@ -18,4 +18,4 @@ class Json_Massiv {
   json memory;
 };
 
-#endif  // INCLUDE_JSON_STORAGE_HPP_
+#endif  // INCLUDE_JSON_MASSIV_HPP_

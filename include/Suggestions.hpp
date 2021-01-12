@@ -1,7 +1,7 @@
 // Copyright 2020 Your Name <your_email>
 
-#ifndef INCLUDE_SUGGESTIONS_COLLECTION_HPP_
-#define INCLUDE_SUGGESTIONS_COLLECTION_HPP_
+#ifndef INCLUDE_SUGGESTIONS_HPP_
+#define INCLUDE_SUGGESTIONS_HPP_
 #include <nlohmann/json.hpp>
 #include <string>
 
@@ -17,4 +17,4 @@ class Suggestions {
   json suggestions_;
 };
 
-#endif  // INCLUDE_SUGGESTIONS_COLLECTION_HPP_
+#endif  // INCLUDE_SUGGESTIONS_HPP_
