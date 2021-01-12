@@ -149,7 +149,7 @@ void do_session(net::ip::tcp::socket& socket,
 void update_15min(const std::shared_ptr<Json_Massiv>& storage,
                   const std::shared_ptr<Suggestions>& suggestions,
                   const std::shared_ptr<std::timed_mutex>& mutex) {
-  using namespace std::chrono_literals;
+  using namespace std::literals::chrono_literals;
   auto minutes = 15min;
   for (;;) {
     mutex->lock();
