@@ -28,10 +28,10 @@ std::string make_json(const json& JSON) {
 }
 
 template <class Text, class Distributor, class Sending>
-void handle_request(http::request<Text, http::basic_fields<Distributor>>&& distr,
-                    Sending&& send, const std::shared_ptr<std::timed_mutex>& mutex,
-                    const std::shared_ptr<Suggestions>& collection) {
-
+void handle_request(
+    http::request<Text, http::basic_fields<Distributor>>&& distr,
+    Sending&& send, const std::shared_ptr<std::timed_mutex>& mutex,
+    const std::shared_ptr<Suggestions>& collection) {
   auto const bad_request = [&distr](beast::string_view why) {
     http::response<http::string_body> result{http::status::bad_request,
                                              distr.version()};
@@ -45,7 +45,7 @@ void handle_request(http::request<Text, http::basic_fields<Distributor>>&& distr
 
   auto const not_found = [&distr](beast::string_view target) {
     http::response<http::string_body> result{http::status::not_found,
-                                          distr.version()};
+                                             distr.version()};
     result.set(http::field::server, BOOST_BEAST_VERSION_STRING);
     result.set(http::field::content_type, "text/html");
     result.keep_alive(distr.keep_alive());
@@ -57,7 +57,8 @@ void handle_request(http::request<Text, http::basic_fields<Distributor>>&& distr
   if (distr.method() == http::verb::get) {
     return send(bad_request("This is first request."));
   }
-  if (distr.method() != http::verb::post && distr.method() != http::verb::head) {
+  if (distr.method() != http::verb::post &&
+      distr.method() != http::verb::head) {
     return send(bad_request("Unknown HTTP-method"));
   }
 
@@ -75,10 +76,12 @@ void handle_request(http::request<Text, http::basic_fields<Distributor>>&& distr
   try {
     input = JSON.at("input").get<std::string>();
   } catch (std::exception& e) {
-    return send(bad_request(R"(Correct JSON-file: {"input": "<user-message>"})"));
+    return send(
+        bad_request(R"(Correct JSON-file: {"input": "<user-message>"})"));
   }
   if (!input.has_value()) {
-    return send(bad_request(R"(Correct JSON-file: {"input": "<user-message>"})"));
+    return send(
+        bad_request(R"(Correct JSON-file: {"input": "<user-message>"})"));
   }
 
   mutex->lock();
@@ -111,7 +114,7 @@ void fail(beast::error_code error, char const* str) {
 template <class Stream>
 struct send_lambda {
   Stream& stream_;
-   bool& close_;
+  bool& close_;
   beast::error_code& ec_;
 
   explicit send_lambda(Stream& stream, bool& close, beast::error_code& error)
@@ -124,7 +127,6 @@ struct send_lambda {
     http::write(stream_, sr, ec_);
   }
 };
-
 
 void do_session(net::ip::tcp::socket& socket,
                 const std::shared_ptr<Suggestions>& collection,
@@ -144,10 +146,9 @@ void do_session(net::ip::tcp::socket& socket,
   socket.shutdown(tcp::socket::shutdown_send, errorCode);
 }
 
-void update_15min(
-    const std::shared_ptr<Json_Massiv>& storage,
-    const std::shared_ptr<Suggestions>& suggestions,
-    const std::shared_ptr<std::timed_mutex>& mutex) {
+void update_15min(const std::shared_ptr<Json_Massiv>& storage,
+                  const std::shared_ptr<Suggestions>& suggestions,
+                  const std::shared_ptr<std::timed_mutex>& mutex) {
   using namespace std::chrono_literals;
   auto minutes = 15min;
   for (;;) {
@@ -160,13 +161,11 @@ void update_15min(
   }
 }
 int Start(int argc, char* argv[]) {
-
   std::shared_ptr<std::timed_mutex> mutex =
       std::make_shared<std::timed_mutex>();
   std::shared_ptr<Json_Massiv> storage = std::make_shared<Json_Massiv>(
       "/home/alexscorpy/Документы/АЯ/lab-07-http-server/suggestions.json");
-  std::shared_ptr<Suggestions> suggestions =
-      std::make_shared<Suggestions>();
+  std::shared_ptr<Suggestions> suggestions = std::make_shared<Suggestions>();
   try {
     if (argc != 3) {
       std::cerr << "Usage: suggestion_server <address> <port>\n"
@@ -183,19 +182,16 @@ int Start(int argc, char* argv[]) {
 
     std::thread{update_15min, storage, suggestions, mutex}.detach();
     for (;;) {
-
       tcp::socket socket{ioContext};
 
       acceptor.accept(socket);
 
-      std::thread{std::bind(&do_session, std::move(socket), suggestions, mutex)}
-          .detach();
+      std::thread{std::bind(&do_session, std::move(socket),
+                            suggestions, mutex)}.detach();
     }
   } catch (std::exception& exc) {
     std::cerr << exc.what() << '\n';
     return EXIT_FAILURE;
   }
 }
- int main(int argc, char* argv[]) {
-  return Start(argc, argv);
-}
+int main(int argc, char* argv[]) { return Start(argc, argv); }
