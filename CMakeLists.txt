@@ -59,3 +59,6 @@ target_link_libraries(tests
 
 enable_testing()
 add_test(NAME unit_tests COMMAND tests)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
