@@ -194,6 +194,7 @@ int Start(int argc, char* argv[]) {
   }
 }
 // Using: ./cmake-build-debug/tests 0.0.0.0 8080
-// int main(int argc, char* argv[]) {
-//  return Start(argc, argv);
+//int main(int argc, char* argv[])
+//{
+//  return Start(argc, argv)
 //}
