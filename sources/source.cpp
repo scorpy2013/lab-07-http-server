@@ -154,9 +154,9 @@ void update_15min(const std::shared_ptr<Json_Massiv>& storage,
     // WRITE - блокировка
     mutex->lock();
     storage->Load();
-    suggestions->Update(storage->get_storage());
+    suggestions->Update(storage->get_memory());
     mutex->unlock();
-    std::cout << "Suggestions updated" << std::endl;
+    std::cout << "Updating of suggestions was successful!" << std::endl;
     std::this_thread::sleep_for(15min);
   }
 }
