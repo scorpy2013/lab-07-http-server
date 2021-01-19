@@ -149,14 +149,13 @@ void do_session(net::ip::tcp::socket& socket,
 void update_15min(const std::shared_ptr<Json_Massiv>& storage,
                   const std::shared_ptr<Suggestions>& suggestions,
                   const std::shared_ptr<std::timed_mutex>& mutex) {
-    using std::chrono_literals::operator""min;
+  using namespace std::chrono_literals;
   for (;;) {
-    // WRITE - блокировка
     mutex->lock();
     storage->read_json();
     suggestions->Update(storage->get_memory());
     mutex->unlock();
-    std::cout << "Updating of suggestions was successful!" << std::endl;
+    std::cout << "Updating was successful!" << std::endl;
     std::this_thread::sleep_for(15min);
   }
 }
