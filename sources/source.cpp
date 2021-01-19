@@ -193,4 +193,8 @@ int Start(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 }
-//int main(int argc, char* argv[]) { return Start(argc, argv); }
+// Using: ./cmake-build-debug/tests 0.0.0.0 8080
+//int main(int argc, char* argv[]) 
+//{ 
+//  return Start(argc, argv); 
+//}
