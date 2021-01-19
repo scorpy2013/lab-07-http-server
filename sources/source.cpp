@@ -163,7 +163,7 @@ int Start(int argc, char* argv[]) {
   std::shared_ptr<std::timed_mutex> mutex =
       std::make_shared<std::timed_mutex>();
   std::shared_ptr<Json_Massiv> storage = std::make_shared<Json_Massiv>(
-      "/home/alexscorpy/Документы/АЯ/lab-07-http-server/suggestions.json");
+      "/home/alexscorpy/Documents/АЯ/lab-07-http-server/suggestions.json");
   std::shared_ptr<Suggestions> suggestions = std::make_shared<Suggestions>();
   try {
     if (argc != 3) {
@@ -194,7 +194,6 @@ int Start(int argc, char* argv[]) {
   }
 }
 // Using: ./cmake-build-debug/tests 0.0.0.0 8080
-//int main(int argc, char* argv[])
-//{
-//  return Start(argc, argv)
-//}
+ int main(int argc, char* argv[]) {
+  return Start(argc, argv);
+}
