@@ -40,7 +40,7 @@ add_executable(tests
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/Json_Massiv.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/Suggestions.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
-        #${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
         )
 
 # TODO: change template word to project name and delete this comment
