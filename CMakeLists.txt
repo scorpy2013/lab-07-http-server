@@ -37,7 +37,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 
 add_executable(tests
         # TODO: enum your files and delete this comment
-        ${CMAKE_CURRENT_SOURCE_DIR}/sources/Json_Massiv.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/JsonArray.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/Suggestions.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
