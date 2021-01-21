@@ -1,7 +1,7 @@
 // Copyright 2020 Your Name <your_email>
 
-#ifndef INCLUDE_JSON_ARRAY_HPP_
-#define INCLUDE_JSON_ARRAY_HPP_
+#ifndef INCLUDE_JSONARRAY_HPP_
+#define INCLUDE_JSONARRAY_HPP_
 
 #include <nlohmann/json.hpp>
 #include <string>
@@ -18,4 +18,4 @@ class JsonArray {
   json memory;
 };
 
-#endif  // INCLUDE_JSON_ARRAY_HPP_
+#endif  // INCLUDE_JSONARRAY_HPP_

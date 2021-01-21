@@ -53,7 +53,7 @@ void httpRequest(
     result.prepare_payload();
     return result;
   };
-//
+
   if (distr.method() == http::verb::get) {
     return send(bad_request("This is first request."));
   }
@@ -66,15 +66,15 @@ void httpRequest(
     return send(not_found(distr.target()));
   }
 
-  json JSON;
+  json Json;
   try {
-    JSON = json::parse(distr.body());
+    Json = json::parse(distr.body());
   } catch (std::exception& exc) {
     return send(bad_request(exc.what()));
   }
   boost::optional<std::string> input;
   try {
-    input = JSON.at("input").get<std::string>();
+    input = Json.at("input").get<std::string>();
   } catch (std::exception& e) {
     return send(
         bad_request(R"(Correct JSON-file: {"input": "<user-message>"})"));
@@ -146,7 +146,7 @@ void do_session(net::ip::tcp::socket& socket,
   socket.shutdown(tcp::socket::shutdown_send, errorCode);
 }
 
-void update_15min(const std::shared_ptr<JsonArray>& storage,
+void Regeneration(const std::shared_ptr<JsonArray>& storage,
                   const std::shared_ptr<Suggestions>& suggestions,
                   const std::shared_ptr<std::timed_mutex>& mutex) {
   for (;;) {
@@ -178,7 +178,7 @@ int Start(int argc, char* argv[]) {
 
     tcp::acceptor acceptor{ioContext, {address, port}};
 
-    std::thread{update_15min, storage, suggestions, mutex}.detach();
+    std::thread{Regeneration, storage, suggestions, mutex}.detach();
     for (;;) {
       tcp::socket socket{ioContext};
 

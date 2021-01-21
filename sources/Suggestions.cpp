@@ -15,10 +15,10 @@ json Suggestions::DoSuggest(const std::string& str) {
   json JsonFile;
   for (size_t i = 0, m = 0; i < suggestions_.size(); ++i) {
     if (str == suggestions_[i].at("id")) {
-      json JSON;
-      JSON["text"] = suggestions_[i].at("name");
-      JSON["position"] = m++;
-      JsonFile["suggestions"].push_back(JSON);
+      json JsonObject;
+      JsonObject["text"] = suggestions_[i].at("name");
+      JsonObject["position"] = m++;
+      JsonFile["suggestions"].push_back(JsonObject);
     }
   }
   return JsonFile;
