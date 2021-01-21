@@ -7,9 +7,9 @@
 #include <iostream>
 #include <sstream>
 
-Json_Massiv::Json_Massiv(const std::string& name_) : name(name_) {}
-json Json_Massiv::get_memory() const { return memory; }
-void Json_Massiv::read_json() {
+JsonArray::JsonArray(const std::string& name_) : name(name_) {}
+json JsonArray::GetMemory() const { return memory; }
+void JsonArray::ReadJson() {
   try {
     std::ifstream in(name);
     in >> memory;

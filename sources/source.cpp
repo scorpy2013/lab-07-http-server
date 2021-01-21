@@ -18,17 +18,17 @@ namespace beast = boost::beast;    // from <boost/beast.hpp>
 namespace http = beast::http;      // from <boost/beast/http.hpp>
 namespace net = boost::asio;       // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;  // from <boost/asio/ip/tcp.hpp>
-std::string make_json(const json& JSON) {
+std::string DoJson(const json& Json) {
   std::stringstream ss;
-  if (JSON.is_null())
+  if (Json.is_null())
     ss << "JSON file is empty!!!";
   else
-    ss << std::setw(4) << JSON;
+    ss << std::setw(4) << Json;
   return ss.str();
 }
 
 template <class Text, class Distributor, class Sending>
-void handle_request(
+void httpRequest(
     http::request<Text, http::basic_fields<Distributor>>&& distr,
     Sending&& send, const std::shared_ptr<std::timed_mutex>& mutex,
     const std::shared_ptr<Suggestions>& collection) {
@@ -85,9 +85,9 @@ void handle_request(
   }
 
   mutex->lock();
-  auto result = collection->do_suggest(input.value());
+  auto result = collection->DoSuggest(input.value());
   mutex->unlock();
-  http::string_body::value_type body = make_json(result);
+  http::string_body::value_type body = DoJson(result);
   auto const size = body.size();
   if (distr.method() == http::verb::head) {
     http::response<http::empty_body> res{http::status::ok, distr.version()};
@@ -140,19 +140,19 @@ void do_session(net::ip::tcp::socket& socket,
     http::read(socket, buffer, req, errorCode);
     if (errorCode == http::error::end_of_stream) break;
     if (errorCode) return fail(errorCode, "Problem in reading");
-    handle_request(std::move(req), lambda, mutex, collection);
+    httpRequest(std::move(req), lambda, mutex, collection);
     if (errorCode) return fail(errorCode, "Problem in writing");
   }
   socket.shutdown(tcp::socket::shutdown_send, errorCode);
 }
 
-void update_15min(const std::shared_ptr<Json_Massiv>& storage,
+void update_15min(const std::shared_ptr<JsonArray>& storage,
                   const std::shared_ptr<Suggestions>& suggestions,
                   const std::shared_ptr<std::timed_mutex>& mutex) {
   for (;;) {
     mutex->lock();
-    storage->read_json();
-    suggestions->Update(storage->get_memory());
+    storage->ReadJson();
+    suggestions->Update(storage->GetMemory());
     mutex->unlock();
     std::cout << "Updating was successful!" << std::endl;
     std::this_thread::sleep_for(std::chrono::operator""min(15));
@@ -161,7 +161,7 @@ void update_15min(const std::shared_ptr<Json_Massiv>& storage,
 int Start(int argc, char* argv[]) {
   std::shared_ptr<std::timed_mutex> mutex =
       std::make_shared<std::timed_mutex>();
-  std::shared_ptr<Json_Massiv> storage = std::make_shared<Json_Massiv>(
+  std::shared_ptr<JsonArray> storage = std::make_shared<JsonArray>(
       "/home/alexscorpy/Documents/АЯ/lab-07-http-server/suggestions.json");
   std::shared_ptr<Suggestions> suggestions = std::make_shared<Suggestions>();
   try {

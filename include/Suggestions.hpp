@@ -10,8 +10,8 @@ using json = nlohmann::json;
 class Suggestions {
  public:
   Suggestions();
-  void Update(json JSON);
-  json do_suggest(const std::string& str);
+  void Update(json Json);
+  json DoSuggest(const std::string& str);
 
  private:
   json suggestions_;

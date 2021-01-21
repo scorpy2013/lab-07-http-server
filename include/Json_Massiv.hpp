@@ -7,11 +7,11 @@
 #include <string>
 using json = nlohmann::json;
 
-class Json_Massiv {
+class JsonArray {
  public:
-  explicit Json_Massiv(const std::string& name_);
-  json get_memory() const;
-  void read_json();
+  explicit JsonArray(const std::string& name_);
+  json GetMemory() const;
+  void ReadJson();
 
  private:
   std::string name;
