@@ -28,10 +28,9 @@ std::string DoJson(const json& Json) {
 }
 
 template <class Text, class Distributor, class Sending>
-void httpRequest(
-    http::request<Text, http::basic_fields<Distributor>>&& distr,
-    Sending&& send, const std::shared_ptr<std::timed_mutex>& mutex,
-    const std::shared_ptr<Suggestions>& collection) {
+void httpRequest(http::request<Text, http::basic_fields<Distributor>>&& distr,
+                 Sending&& send, const std::shared_ptr<std::timed_mutex>& mutex,
+                 const std::shared_ptr<Suggestions>& collection) {
   auto const bad_request = [&distr](beast::string_view why) {
     http::response<http::string_body> result{http::status::bad_request,
                                              distr.version()};
@@ -184,8 +183,8 @@ int Start(int argc, char* argv[]) {
 
       acceptor.accept(socket);
 
-      std::thread{std::bind(&do_session, std::move(socket),
-                            suggestions, mutex)}.detach();
+      std::thread{std::bind(&do_session, std::move(socket), suggestions, mutex)}
+          .detach();
     }
   } catch (std::exception& exc) {
     std::cerr << exc.what() << '\n';
@@ -193,6 +192,4 @@ int Start(int argc, char* argv[]) {
   }
 }
 // Using: ./cmake-build-debug/tests 0.0.0.0 8080
- int main(int argc, char* argv[]) {
-  return Start(argc, argv);
-}
+int main(int argc, char* argv[]) { return Start(argc, argv); }
