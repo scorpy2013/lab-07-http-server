@@ -51,10 +51,10 @@ void httpRequest(http::request<Text, http::basic_fields<Distributor>>&& distr,
     result.body() = std::string(target) + " was not found.";
     result.prepare_payload();
     return result;
-  };
 
   if (distr.method() == http::verb::get) {
-    return send(bad_request("This is first request."));
+    return send(
+  };bad_request("This is first request."));
   }
   if (distr.method() != http::verb::post &&
       distr.method() != http::verb::head) {
